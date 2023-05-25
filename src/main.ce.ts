@@ -1,6 +1,8 @@
 import { defineCustomElement } from 'vue'
 import TsMediaLibraryComponnet from './components/TsMediaLibrary.ce.vue';
+import "./style.scss";
+
 
 const TsMediaLibrary = defineCustomElement(TsMediaLibraryComponnet)
 
-customElements.define('simple-sample', TsMediaLibrary)
+customElements.define('ts-medialibrary', TsMediaLibrary)

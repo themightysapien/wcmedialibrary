@@ -7,7 +7,7 @@ export default defineConfig({
 		vue({
 			template: {
 				compilerOptions: {
-					isCustomElement: (tag) => tag.includes("ts-media-library"),
+					isCustomElement: (tag) => tag.includes("ts-medialibrary"),
 				},
 			},
 		}),
@@ -15,7 +15,7 @@ export default defineConfig({
 	build: {
 		lib: {
 			entry: "./src/main.ce.ts",
-			name: "ts-media-library",
+			name: "ts-medialibrary",
 			// the proper extensions will be added
 			fileName: "ts-media-library",
 		},

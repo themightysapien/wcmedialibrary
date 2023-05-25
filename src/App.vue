@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TsMediaLibrary from './components/TsMediaLibrary.ce.vue'
+// import TsMediaLibrary from './components/TsMediaLibrary.ce.vue'
 </script>
 
 <template>
@@ -11,7 +11,7 @@ import TsMediaLibrary from './components/TsMediaLibrary.ce.vue'
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
   </div>
-  <TsMediaLibrary />
+  <!-- <TsMediaLibrary /> -->
 </template>
 
 <style scoped>
