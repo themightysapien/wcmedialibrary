@@ -4,6 +4,7 @@
 			margin: 0;
 			margin-bottom: 0.5rem;
 			color: var(--color-dark);
+            overflow-wrap: break-word;
 		}
 		p {
             margin: 0;
@@ -11,10 +12,20 @@
 			color: var(--color-grey);
 		}
 	}
-	.tml-media-preview-image {
-		max-width: 100%;
-		width: 100%;
-	}
+
+    .tml-media-preview-image-container {
+
+        .tml-media-preview-image {
+            // max-width: 100%;
+            object-fit: cover;
+            width: 280px;
+        }
+
+        h2 {
+            margin:0.25rem 0;
+            overflow-wrap: break-word;
+        }
+    }
 
 	.tml-media-info-content {
 		dl {

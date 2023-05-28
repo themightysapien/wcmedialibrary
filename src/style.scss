@@ -122,8 +122,8 @@
 		}
 
 		.tml-preview-container {
-			min-width: 250px;
-			max-width: 100vw;
+			width: 300px;
+			
 			padding: var(--tml-modal-info-padding, 1rem);
 			padding-top:0;
 			background-color: var(--tml-modal-info-background-color, #ffffff);

@@ -13,26 +13,30 @@
 				>
 					<input
 						class="form-check-input"
-						type="checkbox"
-						name="media"
+						:type="inputType"
+						
 						:id="`media-${no}`"
-						:value="no"
+						:value="media.id"
+						v-model="state.selected"
 					/>
 					<label
 						class="tml-gallery-item rounded"
 						:for="`media-${no}`"
+						@click="activate(media.id)"
 					>
 						<div class="tml-gallery-item-preview-container">
 							<img
-								:src="`https://placehold.co/250x250`"
+								:src="media.thumb_url"
 								class="tml-gallery-image object-cover"
 							/>
 						</div>
 						<span class="tml-gallery-item-info">
 							<p class="tml-gallery-item-title truncate">
-								Image abcd is the one and it shall go on {{ no }}
+								{{ media.file_name }}
 							</p>
-							<span class="tml-gallery-item-subtitle"> 230KB </span>
+							<span class="tml-gallery-item-subtitle">
+								{{ media.size_readable }}
+							</span>
 						</span>
 					</label>
 				</div>
@@ -57,25 +61,30 @@
 							d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
 						></path>
 					</svg>
-					<h3 class="text-sm font-medium">
-						No images found
-					</h3>
-					<p class="text-sm">
-						Get started by uploading your first item.
-					</p>
+					<h3 class="text-sm font-medium">No images found</h3>
+					<p class="text-sm">Get started by uploading your first item.</p>
 				</div>
 			</div>
 		</template>
 	</div>
 </template>
 <script setup>
-	import { onMounted } from "vue";
+	import { onMounted, computed, watchEffect } from "vue";
 	import useMediaStore from "../composables/media.store";
 
-	const { state, loading, fetchOnce } = useMediaStore();
+	const props = defineProps({
+		multiple: {default: 0}
+	});
+	// console.log(props);
+
+	const { state, loading, fetchOnce, activate } = useMediaStore();
+
+	const inputType = computed(() => (props.multiple == 1 ? "checkbox" : "radio"));
 
 	onMounted(() => {
 		fetchOnce();
 	});
+
+	// watchEffect((state) => console.log(state.selected));
 </script>
 <style></style>

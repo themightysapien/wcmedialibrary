@@ -9,7 +9,7 @@
 		>
 			<div
 				class="tml-content rounded"
-				@click="onContentClick"
+				
 			>
 				<div class="tml-modal-header">
 					<h3>Media Library</h3>
@@ -67,7 +67,7 @@
 					<div class="tml-gallery-preview-container rounded">
 						<div class="w-full">
 							<Filter />
-							<Gallery />
+							<Gallery :multiple="multiple" />
 						</div>
 						<div class="tml-preview-container">
 							<Information />
@@ -87,6 +87,7 @@
 						<button
 							type="button"
 							class="btn-primary"
+							@click.prevent="onSaveClick"
 						>
 							Save & Close
 						</button>
@@ -110,10 +111,11 @@
 	export default defineComponent({
 		components: { Uploader, Gallery, Filter, Information },
 		setup() {
-			const { setUrl } = useMediaStore();
+			const { setUrl, state, selectedItems } = useMediaStore();
 
-			return { setUrl };
+			return { setUrl, state, selectedItems };
 		},
+		enits: ['tml-modal-background-closed', 'updated'],
 		props: {
 			blocking: { default: false },
 			label: { default: "Upload" },
@@ -164,6 +166,11 @@
 				console.log(e);
 			},
 
+			onSaveClick(e: any){
+				console.log(this.selectedItems);
+				this.$emit('updated', this.selectedItems);
+				this.close();
+			},
 			close() {
 				this.opened = false;
 				this._toChange = true;
@@ -172,6 +179,9 @@
 					composed: true,
 					detail: this,
 				});
+			},
+			output(){
+				this.$emit('updated', this.selectedItems)
 			},
 
 			onAnimationEnd() {
