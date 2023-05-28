@@ -1,0 +1,24 @@
+.tml-progress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 100%;
+    position: relative;
+
+    svg {
+        width: 5rem;
+        height: 5rem;
+    }
+    .tml-progress-circle-bg {
+        color: var(--color-light);
+    }
+    .tml-progress-circle {
+        color: var(--tml-progress-color, blue)
+    }
+    
+    span {
+        position: absolute;
+        color: var(--tml-progress-color, blue)
+    }
+}
