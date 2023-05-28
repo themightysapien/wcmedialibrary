@@ -22,6 +22,10 @@
 			</slot>
 		</span>
 
+		<Progress
+			
+			:value="progressBar.completed"
+		/>
 		<!-- <ProgressBar v-if="showProgress && progressBar.visible" :value="progressBar.completed">
       <strong>{{ progressBar.completed }}</strong>
     </ProgressBar> -->
@@ -47,11 +51,12 @@
 
 <script>
 	import useMediaStore from "../composables/media.store";
+	import Progress from "./Progress.vue";
 	// import ProgressBar from "primevue/progressbar";
 	// import * as mediaAPI from "@app/services/mediaAPI";
 	// import { buildFormData } from "@app/helpers";
 	export default {
-		components: {},
+		components: { Progress },
 		setup() {
 			const { store } = useMediaStore();
 
@@ -61,7 +66,7 @@
 			autoHide: { default: false },
 			multiple: { default: 0 },
 			preview: { default: true },
-      allowFiles: { default: 0 },
+			allowFiles: { default: 0 },
 			inputContainerClass: { default: "" },
 			previewContainerClass: { default: "" },
 			resetFilesOnUpload: { default: true },
@@ -121,16 +126,15 @@
 			upload(data) {
 				// data = buildFormData(data, this.params);
 				this.progressBar.visible = true;
-				this
-					.store(data, {
-						onUploadProgress: (progressEvent) => {
-							var percentCompleted = Math.round(
-								(progressEvent.loaded * 100) / progressEvent.total
-							);
-							this.progressBar.completed = percentCompleted;
-							// console.log(progressEvent.loaded, this.progressBar.completed);
-						},
-					})
+				this.store(data, {
+					onUploadProgress: (progressEvent) => {
+						var percentCompleted = Math.round(
+							(progressEvent.loaded * 100) / progressEvent.total
+						);
+						this.progressBar.completed = percentCompleted;
+						// console.log(progressEvent.loaded, this.progressBar.completed);
+					},
+				})
 					.then((resp) => {
 						if (!resp["success"]) {
 							return;
