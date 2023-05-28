@@ -7,10 +7,7 @@
 			@transitionend="onAnimationEnd"
 			id="tml-backgroundmodal"
 		>
-			<div
-				class="tml-content rounded"
-				
-			>
+			<div class="tml-content rounded">
 				<div class="tml-modal-header">
 					<h3>Media Library</h3>
 					<button
@@ -59,13 +56,12 @@
 					</a>
 				</div>
 				<div class="tml-modal-body">
-					<Uploader
-						:multiple="multiple"
-						:autoHide="autoHide"
-					/>
-
 					<div class="tml-gallery-preview-container rounded">
 						<div class="w-full">
+							<Uploader
+								:multiple="multiple"
+								:autoHide="autoHide"
+							/>
 							<Filter />
 							<Gallery :multiple="multiple" />
 						</div>
@@ -115,7 +111,7 @@
 
 			return { setUrl, state, selectedItems };
 		},
-		enits: ['tml-modal-background-closed', 'updated'],
+		enits: ["tml-modal-background-closed", "updated"],
 		props: {
 			blocking: { default: false },
 			label: { default: "Upload" },
@@ -166,9 +162,9 @@
 				console.log(e);
 			},
 
-			onSaveClick(e: any){
+			onSaveClick(e: any) {
 				console.log(this.selectedItems);
-				this.$emit('updated', this.selectedItems);
+				this.$emit("updated", this.selectedItems);
 				this.close();
 			},
 			close() {
@@ -180,8 +176,8 @@
 					detail: this,
 				});
 			},
-			output(){
-				this.$emit('updated', this.selectedItems)
+			output() {
+				this.$emit("updated", this.selectedItems);
 			},
 
 			onAnimationEnd() {
