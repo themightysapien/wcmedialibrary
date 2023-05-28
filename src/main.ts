@@ -3,7 +3,7 @@ import "./style.scss";
 import App from "./App.vue";
 import TsMediaLibrary from "./components/TsMediaLibrary.ce.vue";
 
-const app = createApp({}); /* .mount('#app') */
+const app = createApp(App); /* .mount('#app') */
 
 app.config.compilerOptions.isCustomElement = (tag) => tag == "ts-medialibrary";
 // app.mount("#app");

@@ -1,3 +1,5 @@
+
+
 .truncate {
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -21,6 +23,44 @@
 	outline-offset: 2px;
 }
 
+.ml-auto {
+	margin-left: auto;
+}
+.mr-auto {
+	margin-right: auto;
+}
+.mx-auto {
+	@extend .ml-auto;
+	@extend .mr-auto;
+}
+
+.sr-only {
+	position: absolute;
+	left: -10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.text-sm {
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+}
+.text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+}
+.font-medium {
+	font-weight: 500;
+}
+.w-full {
+	width:100%;
+}
 button {
 	--bg: var(--color-primary);
 	--color: white;
@@ -31,15 +71,48 @@ button {
 	background-color: var(--bg);
 	color: var(--color);
 	border: 1px solid transparent;
+	cursor: pointer;
+	font-weight: bold;
+	transition-duration: 0.2s;
+	transition-property: background-color;
+	transition-timing-function: ease;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+
+	svg {
+		width: 1.25rem;
+		height: 1rem;
+		margin-right: 0.25rem;
+		margin-left: -0.5rem;
+	}
+
+	&.btn-primary {
+		--bg: rgb(var(--color-primary-rgb), 0.9);
+		border-color: rgb(var(--color-primary-rgb), 1);
+
+		&:hover {
+			--bg: rgb(var(--color-primary-rgb), 1);
+		}
+	}
 
 	&.btn-secondary {
 		--bg: var(--color-secondary);
 		--color: gray;
 		border-color: gray;
+
+		&:hover {
+			opacity: 1;
+			--color: #333333;
+			border-color: #333333;
+		}
 	}
 
-	&:hover {
-		opacity: 0.9;
+	&:focus {
+		border-width: 3px;
+		padding: calc(var(--tml-button-padding-x, 0.5rem) - 3px)
+			calc(var(--tml-button-padding-x, 1.25rem) - 3px);
+		margin: 1px;
 	}
 }
 
@@ -53,6 +126,9 @@ button {
 			--tml-gallery-item-selected-background-color,
 			#ffffff
 		);
+		transition-duration: 0.5s;
+		transition-property: border, background;
+		transition-timing-function: ease;
 		// img {
 		//     width:80px;
 		//     margin-bottom:5px;
@@ -74,9 +150,9 @@ button {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: 40px;
-		height: 40px;
-		line-height: 40px;
+		width: 30px;
+		height: 30px;
+		line-height: 30px;
 		border-radius: 100%;
 		border: 2px solid var(--active-border-color);
 		background-color: var(--active-background-color);
