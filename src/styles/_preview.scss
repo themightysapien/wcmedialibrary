@@ -28,8 +28,10 @@
     }
 
 	.tml-media-info-content {
+		h4 { margin:0;}
+
 		dl {
-			margin-top: 2rem;
+			margin-top: 1rem;
 			border-color: var(--color-grey);
 			border-style: solid;
 			border-top: 1px;
@@ -41,7 +43,7 @@
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				gap: 2rem;
+				gap: 1rem;
 				font-size: 0.875rem;
 				line-height: 1rem;
 				font-weight: 500;
@@ -52,6 +54,7 @@
 				}
 				dd {
 					color: black;
+					text-align: right;
 				}
 			}
 		}

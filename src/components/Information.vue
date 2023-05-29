@@ -18,7 +18,7 @@
 					</div> -->
 					<div class="">
 						<dt class="">Uploaded at</dt>
-						<dd class="">{{ activeItem.created_at }}</dd>
+						<dd :title="activeItem.created_at" class="truncate">{{ activeItem.created_at }}</dd>
 					</div>
 					<!-- <div class="">
 						<dt class="">Dimensions</dt>
@@ -30,7 +30,7 @@
 					</div>
 					<div class="">
 						<dt class="">Thumb conversion generated</dt>
-						<dd class="text-gray-900 dark:text-gray-100 text-right">Yes</dd>
+						<dd class="">Yes</dd>
 					</div>
 				</dl>
 			</div>
@@ -47,12 +47,13 @@
 	</div>
 </template>
 <script setup>
-	import { onMounted, computed, watchEffect } from "vue";
+	import { onMounted, computed, watchEffect, inject } from "vue";
 	import useMediaStore from "../composables/media.store";
 
 	// console.log(props);
+	const uid = inject('uid')
 
-	const { activeItem, activate } = useMediaStore();
+	const { activeItem, activate } = useMediaStore(uid);
 
 	onMounted(() => {});
 </script>
