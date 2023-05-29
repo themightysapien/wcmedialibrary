@@ -34,6 +34,11 @@
 	@extend .mr-auto;
 }
 
+.sticky {
+    position: sticky;
+	top:0;
+}
+
 .sr-only {
 	position: absolute;
 	left: -10000px;
@@ -154,7 +159,7 @@ button {
 		height: 30px;
 		line-height: 30px;
 		border-radius: 100%;
-		border: 2px solid var(--active-border-color);
+		border: 4px solid var(--active-border-color);
 		background-color: var(--active-background-color);
 		z-index: 999;
 		position: absolute;

@@ -22,13 +22,10 @@
 					<label
 						class="tml-gallery-item rounded"
 						:for="`media-${no}`"
-						@click="activate(media.id)"
+						@click="toggleActive(media.id)"
 					>
 						<div class="tml-gallery-item-preview-container">
-							<img
-								:src="media.thumb_url"
-								class="tml-gallery-image object-cover"
-							/>
+							<Media :media="media" class="tml-gallery-image object-cover"/>
 						</div>
 						<span class="tml-gallery-item-info">
 							<p class="tml-gallery-item-title truncate">
@@ -69,7 +66,8 @@
 	</div>
 </template>
 <script setup>
-	import { onMounted, computed, watchEffect } from "vue";
+	import { onMounted, computed, watchEffect, inject } from "vue";
+	import Media from './Media.vue';
 	import useMediaStore from "../composables/media.store";
 
 	const props = defineProps({
@@ -77,7 +75,9 @@
 	});
 	// console.log(props);
 
-	const { state, loading, fetchOnce, activate } = useMediaStore();
+	const uid = inject('uid')
+
+	const { state, loading, fetchOnce, toggleActive } = useMediaStore(uid);
 
 	const inputType = computed(() => (props.multiple == 1 ? "checkbox" : "radio"));
 

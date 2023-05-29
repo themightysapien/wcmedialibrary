@@ -2,10 +2,11 @@
 	<div class="tml-media-preview">
 		<div v-if="activeItem">
 			<div class="tml-media-preview-image-container">
-				<img
+				<Media :media="activeItem" class="tml-media-preview-image rounded"/>
+				<!-- <img
 					:src="activeItem.thumb_url"
 					class="tml-media-preview-image rounded"
-				/>
+				/> -->
 				<h2 class="text-lg ">{{ activeItem.file_name }}</h2>
 				<p>{{ activeItem.size_readable }}</p>
 			</div>
@@ -48,6 +49,8 @@
 </template>
 <script setup>
 	import { onMounted, computed, watchEffect, inject } from "vue";
+	import Media from './Media.vue';
+
 	import useMediaStore from "../composables/media.store";
 
 	// console.log(props);

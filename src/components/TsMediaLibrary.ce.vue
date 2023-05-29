@@ -1,5 +1,8 @@
 <template>
-	<div v-if="url">
+	<div
+		v-if="url"
+		id="tml-media-library"
+	>
 		<section
 			v-if="opened"
 			:class="modalClass"
@@ -9,10 +12,11 @@
 		>
 			<div class="tml-content rounded">
 				<div class="tml-modal-header">
-					<h3>Media Library</h3>
+					<h3>{{ title || "Media Library" }}</h3>
 					<button
 						class="btn-primary"
 						type="button"
+						@click.prevent="uploadVisible = !uploadVisible"
 					>
 						<svg
 							class="tml-modal-button-icon w-5 h-5 mr-1 -ml-2 rtl:ml-1 rtl:-mr-2"
@@ -59,11 +63,17 @@
 					<div class="tml-gallery-preview-container rounded">
 						<div class="w-full">
 							<Uploader
+								v-model:visible="uploadVisible"
 								:multiple="multiple"
 								:autoHide="autoHide"
+								:allow-files="allowFiles"
+								:accept="accept"
 							/>
-							<Filter />
-							<Gallery :multiple="multiple" />
+							<div style="clear: both"></div>
+							<div>
+								<Filter />
+								<Gallery :multiple="multiple" />
+							</div>
 						</div>
 						<div class="tml-preview-container">
 							<Information />
@@ -91,9 +101,17 @@
 				</div>
 			</div>
 		</section>
-		<span @click="open">
-			<slot> {{ label }} </slot>
-		</span>
+		<div @click="open">
+			<selected-preview
+				v-if="preview"
+				:collection="selectedItems"
+			/>
+			<slot v-if="isBtnVisible || !selectedItems || !selectedItems.length">
+				<button class="btn-primary">
+					{{ selectedItems && selectedItems.length ? updateLabel : label }}
+				</button>
+			</slot>
+		</div>
 	</div>
 </template>
 <script lang="ts">
@@ -103,37 +121,53 @@
 	import Uploader from "./Uploader.vue";
 	import useMediaStore from "../composables/media.store";
 	import { defineComponent } from "vue";
+	import SelectedPreview from "./SelectedPreview.vue";
 
 	export default defineComponent({
-		components: { Uploader, Gallery, Filter, Information },
-		setup() {
-			const { setUrl, state, selectedItems } = useMediaStore();
+		components: { Uploader, Gallery, Filter, Information, SelectedPreview },
+		setup(props) {
+			const { initStore, state, selectedItems } = useMediaStore(props.uid);
 
-			return { setUrl, state, selectedItems };
+			return { initStore, state, selectedItems };
 		},
 		enits: ["tml-modal-background-closed", "updated"],
 		props: {
 			blocking: { default: false },
+			preview: { default: true },
 			label: { default: "Upload" },
+			updateLabel: { default: "Click To Change" },
 			multiple: { default: 0 },
 			url: { required: true },
 			autoHide: { default: false },
 			removeConfirm: { default: true },
 			allowFiles: { default: 0 },
+			accept: {
+				default:
+					"image/*, audio/*, video/*, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, .pdf, .doc, .docx, .csv, .txt",
+			},
 			removeConfirmText: {
 				default: "Are you sure you want to remove this file?",
 			},
+			uid: { default: "default" },
+			title: { default: "Media Library" },
+		},
+		provide() {
+			// use function syntax so that we can access `this`
+			return {
+				uid: this.uid,
+			};
 		},
 		data() {
 			return {
 				opened: true,
 				_toChange: false,
+				uploadVisible: false,
 			};
 		},
 		beforeMount() {
 			// console.log(this.url);
 			if (this.url) {
-				this.setUrl(this.url);
+				this.initStore(this.url, this.uid, this.multiple);
 			}
 		},
 		methods: {
@@ -163,8 +197,9 @@
 			},
 
 			onSaveClick(e: any) {
-				console.log(this.selectedItems);
-				this.$emit("updated", this.selectedItems);
+				// console.log(this.selectedItems);
+				this.output();
+				// this.$emit("updated", this.selectedItems);
 				this.close();
 			},
 			close() {
@@ -198,6 +233,16 @@
 				if (!this.opened && this._toChange) {
 					return "transparent opened";
 				}
+			},
+			isBtnVisible() {
+				if (
+					this.multiple &&
+					this.maxLength > 0 &&
+					this.selectedItems.length >= this.maxLength
+				) {
+					return false;
+				}
+				return !this.autoHide;
 			},
 		},
 	});

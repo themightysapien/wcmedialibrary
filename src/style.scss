@@ -10,7 +10,30 @@
 	--color-secondary: var(--tml-color-secondary, rgb(249, 250, 251));
 	--color-grey: var(--tml-color-grey, grey);
 	--color-light: var(--tml-color-light, #bbbbbb);
+	--color-lighter: var(--tml-color-lighter, #cccccc);
 	--color-dark: rgb(17, 24, 39);
+}
+#tml-media-library {
+	@import "./styles/helpers";
+
+
+	.tml-selections-preview {
+		display: flex;
+		gap:0.25rem;
+		
+	
+		.tml-selection-item {
+			width:70px;
+			height: 70px;
+			overflow: hidden;
+	
+			img {
+				object-fit: cover;
+				width:100%;
+			}
+		}
+	}
+
 }
 #tml-backgroundmodal {
 	position: fixed;
@@ -37,8 +60,9 @@
 		display: flex !important;
 	}
 
-	@import "./styles/helpers";
 }
+
+
 
 .tml-content {
 	display: block;
@@ -69,16 +93,17 @@
 		align-items: center;
 		height: 50px;
 		position: relative;
+		margin-top: 0.5rem;
 
 		.tml-modal-close-link {
 			position: absolute;
-			top: -18px;
-			right: -12px;
+			top: -22px;
+			right: 0px;
 			cursor: pointer;
 
 			svg {
 				height: 30px;
-				width:15px;
+				width:20px;
 				color: var(--color-grey);
 			}
 		}
@@ -123,15 +148,23 @@
 
 		.tml-preview-container {
 			width: 300px;
+			max-height:800px;
 			
 			padding: var(--tml-modal-info-padding, 1rem);
 			padding-top:0;
 			background-color: var(--tml-modal-info-background-color, #ffffff);
+			position: sticky;
+			top:0;
+
+			@include responsive(tablet) {
+				position: static;
+			}
 		}
 	}
 
 	@import "./styles/gallery";
 	@import "./styles/filter";
 	@import "./styles/preview";
+	@import "./styles/uploader";
 	@import "./styles/progress";
 }
