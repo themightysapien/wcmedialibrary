@@ -2,7 +2,7 @@ import axios from "axios";
 import { reactive, computed, ref } from "vue";
 import { humanFileSize } from "../helpers";
 
-const state = reactive({
+const template = {
 	items: [],
 	pagination: {},
 	initialized: false,
@@ -10,11 +10,18 @@ const state = reactive({
 	contextLoading: {},
 	selected: [],
 	active: null,
+	multiple: false
+};
+
+const mediaStore = reactive({
+	default: { ...template },
 });
 
 const url = ref<string>("");
+// const key = ref<string>("default");
 
-export default function useMediaStore(config: object = {}) {
+export default function useMediaStore(key = "default") {
+	const state = mediaStore[key];
 	// console.log(config);
 
 	const store = async (formData: FormData, config: object = {}) => {
@@ -29,20 +36,23 @@ export default function useMediaStore(config: object = {}) {
 					updateSelected(items);
 				}
 			}
+			return response;
 		} catch (error) {
 			throw error;
 		}
 	};
 
-    const updateSelected = (items) => {
-        if (items.length > 1) {
-            state.selected = items.map((item) => item.id);
-            state.active = state.selected[0]['id'];
-        } else {
-            state.selected = items[0]["id"];
-            state.active = items[0]["id"];
-        }
-    }
+	const updateSelected = (items: object[]) => {
+		// console.log(key);
+		if (state.multiple) {
+			state.selected = items.map((item) => item['id']).concat(state.selected);
+			state.active = items[0]["id"];
+		} else {
+			state.selected = items[0]["id"];
+			state.active = items[0]["id"];
+		}
+		// console.log(state);
+	};
 
 	const readableSizeMap = (item) => {
 		item["size_readable"] = humanFileSize(item["size"]);
@@ -67,7 +77,7 @@ export default function useMediaStore(config: object = {}) {
 		} catch (error) {
 			state.loading = false;
 			state.initialized = false;
-			console.log(error);
+			// console.log(error);
 		}
 	};
 
@@ -78,39 +88,75 @@ export default function useMediaStore(config: object = {}) {
 		}
 	};
 
-	const activate = (id) => {
-		if (state.active == id) {
-			state.active = null;
-			return;
-		}
+	const toggleActive = (id) => {
+		setTimeout(() => {
+			if (state.active == id) {
+				/* if its multiple(checkbox) and there are still items selected,
+			 activate the last one in the selection */
+				if (state.multiple && state.selected.length > 0) {
+					state.active = state.selected[state.selected.length - 1];
+					return;
+				}
 
-		state.active = id;
+				/* if its single(radio) and user clicks the same item twice */
+				if (state.selected == state.active) {
+					return;
+				}
+
+				state.active = null;
+				return;
+			}
+
+			/* activate only if the id is in or equal to selected */
+			if (
+				(state.multiple && 
+					state.selected.findIndex((selected: number) => id == selected) >= 0) ||
+				state.selected == id
+			) {
+				state.active = id;
+			}
+		}, 100);
+
+		// console.log(state);
 	};
 
+	const activeItem = computed(() => {
+		const state = mediaStore[key];
+
+		if (state.active) {
+			return state.items.find((item) => item.id == state.active);
+		}
+
+		return null;
+	});
+
+	const selectedItems = computed(() => {
+		const state = mediaStore[key];
+		let ids = state.selected instanceof Array ? state.selected : [state.selected];
+
+		if (ids.filter((id) => id).length == 0) {
+			return null;
+		}
+
+		return ids.map((id) => state.items.find((media) => media.id == id));
+	});
+
 	return {
-		collection: computed(() => state.items),
+		initStore: (fullurl: string, key: string, multiple: boolean) => {
+			url.value = fullurl;
+			if (!mediaStore[key]) {
+				mediaStore[key] = { ...template };
+			}
+			mediaStore[key]['multiple'] = multiple;
+			mediaStore[key]['selected'] = multiple ? [] : null;
+		},
 		state,
 		store,
 		fetch,
 		fetchOnce,
-		setUrl: (val: string) => (url.value = val),
-		activate,
-		activeItem: computed(() => {
-			if (state.active) {
-				return state.items.find((item) => item.id == state.active);
-			}
-
-			return null;
-		}),
-		selectedItems: computed(() => {
-			let ids =
-				state.selected instanceof Array ? state.selected : [state.selected];
-
-			if (ids.filter((id) => id).length == 0) {
-				return null;
-			}
-
-			return ids.map((id) => state.items.find((media) => media.id == id));
-		}),
+		
+		toggleActive,
+		activeItem,
+		selectedItems,
 	};
 }
