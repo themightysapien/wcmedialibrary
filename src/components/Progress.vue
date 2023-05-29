@@ -26,7 +26,7 @@
           cy="40"
         />
       </svg>
-      <span class="absolute text-xl text-blue-700" v-text="`${value}%`"></span>
+      <span class="text-xl" v-text="`${value}%`"></span>
     </div>
 </template>
 <script>
