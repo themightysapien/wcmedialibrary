@@ -7,29 +7,43 @@
 	--tml-close-icon-template-color: var(--tml-modal-close-icon-color, #888);
 	--color-primary-rgb: var(--tml-color-primary-rgb, 99, 102, 241);
 	--color-primary: rgb(var(--color-primary-rgb));
+	
+	--color-success: var(--tml-color-success, green);
+	
 	--color-secondary: var(--tml-color-secondary, rgb(249, 250, 251));
 	--color-grey: var(--tml-color-grey, grey);
 	--color-light: var(--tml-color-light, #bbbbbb);
 	--color-lighter: var(--tml-color-lighter, #cccccc);
 	--color-dark: rgb(17, 24, 39);
+
+	--color-danger-rgb: var(--tml-color-danger-rgb, 255, 0, 0);
+	--color-danger: rgb(var(--color-danger-rgb));
 }
+
 #tml-media-library {
 	@import "./styles/helpers";
 
+	@import "./styles/toasts";
 
 	.tml-selections-preview {
 		display: flex;
 		gap:0.25rem;
+
+		--size:var(--tml-selected-preview-size, 100px);
 		
 	
 		.tml-selection-item {
-			width:70px;
-			height: 70px;
+			width:var(--size);
+			height: var(--size);
 			overflow: hidden;
+			padding:0.25rem;
+			border: 1px solid var(--color-light);
+			background-color: var(--color-lighter);
 	
 			img {
 				object-fit: cover;
 				width:100%;
+				height:90px;
 			}
 		}
 	}

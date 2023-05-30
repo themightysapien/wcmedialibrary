@@ -1,6 +1,7 @@
 import axios from "axios";
 import { reactive, computed, ref } from "vue";
-import { humanFileSize } from "../helpers";
+import { humanFileSize, extractErrorMessage } from "../helpers";
+import useToasts from "./useToast";
 
 const template = {
 	items: [],
@@ -10,12 +11,22 @@ const template = {
 	contextLoading: {},
 	selected: [],
 	active: null,
-	multiple: false
+	multiple: false,
 };
 
 const mediaStore = reactive({
 	default: { ...template },
 });
+
+export interface SelectedMedia {
+	id: number|string;
+	thumb_url: string;
+	url: string;
+	mime_type?: string;
+	file_name?: string;
+	size?: string|number;
+	created_at?: string|number;
+}
 
 const url = ref<string>("");
 // const key = ref<string>("default");
@@ -25,10 +36,12 @@ export default function useMediaStore(key = "default") {
 	// console.log(config);
 
 	const store = async (formData: FormData, config: object = {}) => {
+		const { success, error } = useToasts(key);
 		try {
 			const response = await axios.post(url.value, formData, config);
 			// console.log(response);
 			if (response.data) {
+				success(response.data['message'] || "Uploaded");
 				if (response.data["items"]) {
 					state.initialized = true;
 					let items = response.data["items"].map(readableSizeMap);
@@ -37,15 +50,17 @@ export default function useMediaStore(key = "default") {
 				}
 			}
 			return response;
-		} catch (error) {
-			throw error;
+		} catch (er) {
+			// console.log(er);
+			error(extractErrorMessage(er));
+			throw er;
 		}
 	};
 
 	const updateSelected = (items: object[]) => {
 		// console.log(key);
 		if (state.multiple) {
-			state.selected = items.map((item) => item['id']).concat(state.selected);
+			state.selected = items.map((item) => item["id"]).concat(state.selected);
 			state.active = items[0]["id"];
 		} else {
 			state.selected = items[0]["id"];
@@ -88,6 +103,25 @@ export default function useMediaStore(key = "default") {
 		}
 	};
 
+	const remove = async (id: number | string) => {
+		const { success, error } = useToasts(key);
+		try {
+			const response = await axios.delete(`${url.value}/${id}`);
+			if (response.data["success"]) {
+				success(response.data['message'] || "Removed");
+				let index = state.items.findIndex((item) => item.id == id);
+
+				if (index >= 0) {
+					state.items.splice(index, 1);
+				}
+			}
+			return response;
+		} catch (er) {
+			error(extractErrorMessage(er));
+			throw er;
+		}
+	};
+
 	const toggleActive = (id) => {
 		setTimeout(() => {
 			if (state.active == id) {
@@ -109,7 +143,7 @@ export default function useMediaStore(key = "default") {
 
 			/* activate only if the id is in or equal to selected */
 			if (
-				(state.multiple && 
+				(state.multiple &&
 					state.selected.findIndex((selected: number) => id == selected) >= 0) ||
 				state.selected == id
 			) {
@@ -147,14 +181,14 @@ export default function useMediaStore(key = "default") {
 			if (!mediaStore[key]) {
 				mediaStore[key] = { ...template };
 			}
-			mediaStore[key]['multiple'] = multiple;
-			mediaStore[key]['selected'] = multiple ? [] : null;
+			mediaStore[key]["multiple"] = multiple;
+			mediaStore[key]["selected"] = multiple ? [] : null;
 		},
 		state,
 		store,
 		fetch,
 		fetchOnce,
-		
+		remove,
 		toggleActive,
 		activeItem,
 		selectedItems,

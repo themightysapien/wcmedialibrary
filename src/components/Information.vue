@@ -35,6 +35,8 @@
 					</div>
 				</dl>
 			</div>
+			<div class="divider"></div>
+			<Actions :media="activeItem"/>
 		</div>
 		<div
 			v-else
@@ -50,6 +52,7 @@
 <script setup>
 	import { onMounted, computed, watchEffect, inject } from "vue";
 	import Media from './Media.vue';
+	import Actions from './Actions.vue';
 
 	import useMediaStore from "../composables/media.store";
 
