@@ -12,6 +12,9 @@ const template = {
 	selected: [],
 	active: null,
 	multiple: false,
+	filter: {
+		keyword: ''
+	}
 };
 
 const mediaStore = reactive({
@@ -19,13 +22,13 @@ const mediaStore = reactive({
 });
 
 export interface SelectedMedia {
-	id: number|string;
+	id: number | string;
 	thumb_url: string;
 	url: string;
 	mime_type?: string;
 	file_name?: string;
-	size?: string|number;
-	created_at?: string|number;
+	size?: string | number;
+	created_at?: string | number;
 }
 
 const url = ref<string>("");
@@ -41,7 +44,7 @@ export default function useMediaStore(key = "default") {
 			const response = await axios.post(url.value, formData, config);
 			// console.log(response);
 			if (response.data) {
-				success(response.data['message'] || "Uploaded");
+				success(response.data["message"] || "Uploaded");
 				if (response.data["items"]) {
 					state.initialized = true;
 					let items = response.data["items"].map(readableSizeMap);
@@ -108,7 +111,7 @@ export default function useMediaStore(key = "default") {
 		try {
 			const response = await axios.delete(`${url.value}/${id}`);
 			if (response.data["success"]) {
-				success(response.data['message'] || "Removed");
+				success(response.data["message"] || "Removed");
 				let index = state.items.findIndex((item) => item.id == id);
 
 				if (index >= 0) {
@@ -172,8 +175,42 @@ export default function useMediaStore(key = "default") {
 			return null;
 		}
 
-		return ids.map((id) => state.items.find((media) => media.id == id));
+		return ids
+			.map((id) => state.items.find((media) => media.id == id))
+			.filter((item) => item)
+			.map((item) => {
+				const { id, thumb_url, url, file_name } = item;
+
+				return { id, thumb_url, url, file_name } as SelectedMedia;
+			});
 	});
+
+	const filterItems = (item: any) => {
+		
+		if (!state.filter.keyword) {
+			return item;
+		}
+
+		let keyword = state.filter.keyword.toString().toLowerCase();
+
+		return (
+			item.file_name.toString().toLowerCase().includes(keyword) ||
+			item.mime_type.toString().toLowerCase().includes(keyword)
+		);
+	};
+
+	const items = computed(() => {
+		const state = mediaStore[key];
+
+		return state.items.filter(filterItems);
+	});
+
+
+	const resetFilter = () => {
+		state.filter = {
+			keyword: ''
+		};
+	};
 
 	return {
 		initStore: (fullurl: string, key: string, multiple: boolean) => {
@@ -185,6 +222,7 @@ export default function useMediaStore(key = "default") {
 			mediaStore[key]["selected"] = multiple ? [] : null;
 		},
 		state,
+		items,
 		store,
 		fetch,
 		fetchOnce,
@@ -192,5 +230,6 @@ export default function useMediaStore(key = "default") {
 		toggleActive,
 		activeItem,
 		selectedItems,
+		resetFilter
 	};
 }

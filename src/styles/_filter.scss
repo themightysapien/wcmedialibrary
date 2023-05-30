@@ -1,3 +1,36 @@
 .tml-gallery-filter {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
 
+    .tml-gallery-controls {
+        margin-left: auto;
+        position: relative;
+        cursor: pointer;
+        // opacity: 0.6;
+
+        .tml-filter-clear {
+            position: absolute;
+            right:0.5rem;
+            top:0.5rem;
+
+            svg {
+                width:20px;
+                height:20px;
+                fill: var(--color-light);
+            }
+
+            &:hover {
+                svg {
+                    fill: var(--color-grey);
+                }
+            }
+        }
+    }
+
+    .tml-gallery-breadcrumb {
+        p {
+            margin: 0;
+        }
+    }
 }
