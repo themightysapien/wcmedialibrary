@@ -10,3 +10,13 @@ export function humanFileSize(size) {
 		["B", "kB", "MB", "GB", "TB"][i]
 	);
 }
+
+export function extractErrorMessage(axiosError){
+	let message = axiosError.message;
+
+	if(axiosError.response && axiosError.response.data && axiosError.response.data.message){
+		message = axiosError.response.data.message;
+	}
+
+	return message;
+}
