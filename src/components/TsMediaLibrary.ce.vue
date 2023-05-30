@@ -3,6 +3,7 @@
 		v-if="url"
 		id="tml-media-library"
 	>
+		<Toasts />
 		<section
 			v-if="opened"
 			:class="modalClass"
@@ -16,7 +17,7 @@
 					<button
 						class="btn-primary"
 						type="button"
-						@click.prevent="uploadVisible = !uploadVisible"
+						@click.prevent="uploadVisible = !uploadVisible; scrollToTop();"
 					>
 						<svg
 							class="tml-modal-button-icon w-5 h-5 mr-1 -ml-2 rtl:ml-1 rtl:-mr-2"
@@ -59,7 +60,7 @@
 						<span class="sr-only"> Close </span>
 					</a>
 				</div>
-				<div class="tml-modal-body">
+				<div class="tml-modal-body" ref="tml_modal_body">
 					<div class="tml-gallery-preview-container rounded">
 						<div class="w-full">
 							<Uploader
@@ -122,9 +123,17 @@
 	import useMediaStore from "../composables/media.store";
 	import { defineComponent } from "vue";
 	import SelectedPreview from "./SelectedPreview.vue";
+	import Toasts from "./Toasts.vue";
 
 	export default defineComponent({
-		components: { Uploader, Gallery, Filter, Information, SelectedPreview },
+		components: {
+			Uploader,
+			Gallery,
+			Filter,
+			Information,
+			SelectedPreview,
+			Toasts,
+		},
 		setup(props) {
 			const { initStore, state, selectedItems } = useMediaStore(props.uid);
 
@@ -134,13 +143,14 @@
 		props: {
 			blocking: { default: false },
 			preview: { default: true },
-			label: { default: "Upload" },
+			label: { default: "Select File" },
 			updateLabel: { default: "Click To Change" },
-			multiple: { default: 0 },
+			multiple: { default: 0, type: [Boolean, String, Number] },
 			url: { required: true },
 			autoHide: { default: false },
 			removeConfirm: { default: true },
 			allowFiles: { default: 0 },
+			maxLength: { default: 5 },
 			accept: {
 				default:
 					"image/*, audio/*, video/*, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, .pdf, .doc, .docx, .csv, .txt",
@@ -165,6 +175,7 @@
 			};
 		},
 		beforeMount() {
+			// console.log(this.multiple);
 			// console.log(this.url);
 			if (this.url) {
 				this.initStore(this.url, this.uid, this.multiple);
@@ -177,6 +188,11 @@
 				setTimeout(() => {
 					this._toChange = false;
 				}, 50);
+			},
+			scrollToTop(){
+				if(this.uploadVisible){
+					this.$refs['tml_modal_body'].scrollTop = 0;
+				}
 			},
 			_onModalBackgroundClick(e: any) {
 				if (
@@ -238,6 +254,7 @@
 				if (
 					this.multiple &&
 					this.maxLength > 0 &&
+					this.selectedItems &&
 					this.selectedItems.length >= this.maxLength
 				) {
 					return false;

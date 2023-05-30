@@ -71,7 +71,7 @@
 	import useMediaStore from "../composables/media.store";
 
 	const props = defineProps({
-		multiple: {default: 0}
+		multiple: {default: 0, type: [String, Number, Boolean]}
 	});
 	// console.log(props);
 
@@ -79,7 +79,7 @@
 
 	const { state, loading, fetchOnce, toggleActive } = useMediaStore(uid);
 
-	const inputType = computed(() => (props.multiple == 1 ? "checkbox" : "radio"));
+	const inputType = computed(() => (props.multiple  ? "checkbox" : "radio"));
 
 	onMounted(() => {
 		fetchOnce();

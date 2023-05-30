@@ -103,7 +103,7 @@
 		props: {
 			visible: {default: false},
 			autoHide: { default: false },
-			multiple: { default: 0 },
+			multiple: { default: 0, type: [String, Number, Boolean] },
 			preview: { default: true },
 			allowFiles: { default: 0 },
 			accept: { default: '' },

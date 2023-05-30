@@ -34,6 +34,14 @@
 	@extend .mr-auto;
 }
 
+.divider {
+	height: 1px;
+	display: block;
+	background-color: var(--color-light);
+	border-bottom: 1px solid var(--color-lighter);
+	margin:1rem 0;
+}
+
 .sticky {
     position: sticky;
 	top:0;
@@ -85,6 +93,13 @@ button {
 	align-items: center;
 	justify-content: center;
 
+	a {
+		color: var(--color);
+		text-decoration: none;
+		display: block;
+		width:100%;
+	}
+
 	svg {
 		width: 1.25rem;
 		height: 1rem;
@@ -118,6 +133,11 @@ button {
 		padding: calc(var(--tml-button-padding-x, 0.5rem) - 3px)
 			calc(var(--tml-button-padding-x, 1.25rem) - 3px);
 		margin: 1px;
+	}
+
+	&[disabled] {
+		opacity:0.8;
+		cursor: text;
 	}
 }
 

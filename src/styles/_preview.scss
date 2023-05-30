@@ -59,4 +59,15 @@
 			}
 		}
 	}
+
+	.tml-item-actions {
+		.tml-item-actions-primary {
+			display: flex;
+			gap: 1rem;
+			
+			button {
+				flex: 1;
+			}
+		}
+	}
 }
