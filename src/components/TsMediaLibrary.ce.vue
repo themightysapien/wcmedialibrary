@@ -71,7 +71,7 @@
 								:accept="accept"
 							/>
 							<div style="clear: both"></div>
-							<div>
+							<div class="tml-gallery">
 								<Filter />
 								<Gallery :multiple="multiple" />
 							</div>
@@ -169,7 +169,7 @@
 		},
 		data() {
 			return {
-				opened: true,
+				opened: false,
 				_toChange: false,
 				uploadVisible: false,
 			};
@@ -212,7 +212,7 @@
 				console.log(e);
 			},
 
-			onSaveClick(e: any) {
+			onSaveClick() {
 				// console.log(this.selectedItems);
 				this.output();
 				// this.$emit("updated", this.selectedItems);

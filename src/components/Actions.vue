@@ -10,7 +10,7 @@
 				<div class="tml-item-actions-primary">
 					<button
 						type="button"
-						class="btn-primary"
+						class="btn-danger"
 						@click.prevent="onRemoveConfirm"
 						:disabled="isLoading"
 					>
@@ -82,16 +82,20 @@
 				this.remove(this.media.id).then(
 					(resp) => {
 						this.loading(false);
+						this.reset();
 					},
 					(er) => {
 						this.loading(false);
 					}
 				);
 			},
+			reset(){
+				this.deleting = false;
+			}
 		},
 		watch: {
 			media(val) {
-				this.deleting = false;
+				this.reset();
 			},
 		},
 	};

@@ -3,6 +3,7 @@
 		<img
 			:src="media.thumb_url"
 			v-bind="$attrs"
+			:title="media.file_name"
 		/>
 	</div>
 </template>

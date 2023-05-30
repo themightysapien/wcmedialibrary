@@ -1,20 +1,19 @@
 <template>
-	<div class="tml-gallery">
+	<div class="">
 		<template v-if="loading"> Loading... </template>
 		<template v-else>
 			<div
 				class="tml-gallery-grid"
-				v-if="state.items.length"
+				v-if="items.length"
 			>
 				<div
 					class="custom-check"
-					v-for="(media, no) of state.items"
+					v-for="(media, no) of items"
 					:key="no"
 				>
 					<input
 						class="form-check-input"
 						:type="inputType"
-						
 						:id="`media-${no}`"
 						:value="media.id"
 						v-model="state.selected"
@@ -23,9 +22,13 @@
 						class="tml-gallery-item rounded"
 						:for="`media-${no}`"
 						@click="toggleActive(media.id)"
+						:title="media.file_name"
 					>
 						<div class="tml-gallery-item-preview-container">
-							<Media :media="media" class="tml-gallery-image object-cover"/>
+							<Media
+								:media="media"
+								class="tml-gallery-image object-cover"
+							/>
 						</div>
 						<span class="tml-gallery-item-info">
 							<p class="tml-gallery-item-title truncate">
@@ -67,19 +70,19 @@
 </template>
 <script setup>
 	import { onMounted, computed, watchEffect, inject } from "vue";
-	import Media from './Media.vue';
+	import Media from "./Media.vue";
 	import useMediaStore from "../composables/media.store";
 
 	const props = defineProps({
-		multiple: {default: 0, type: [String, Number, Boolean]}
+		multiple: { default: 0, type: [String, Number, Boolean] },
 	});
 	// console.log(props);
 
-	const uid = inject('uid')
+	const uid = inject("uid");
 
-	const { state, loading, fetchOnce, toggleActive } = useMediaStore(uid);
+	const { state, items, loading, fetchOnce, toggleActive } = useMediaStore(uid);
 
-	const inputType = computed(() => (props.multiple  ? "checkbox" : "radio"));
+	const inputType = computed(() => (props.multiple ? "checkbox" : "radio"));
 
 	onMounted(() => {
 		fetchOnce();
