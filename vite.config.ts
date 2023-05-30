@@ -12,12 +12,13 @@ export default defineConfig({
 			},
 		}),
 	],
+	define: { 'process.env.NODE_ENV': '"production"' },
 	build: {
 		lib: {
 			entry: "./src/main.ce.ts",
 			name: "ts-medialibrary",
 			// the proper extensions will be added
-			fileName: "ts-media-library",
+			fileName: "ts-medialibrary",
 		},
 	},
 });
