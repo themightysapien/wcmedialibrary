@@ -1,8 +1,17 @@
 {
-  "name": "universal-media-library",
+  "name": "ts-medialibrary",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "files": ["dist"],
+  "main": "./dist/ts-medialibrary.umd.cjs",
+  "module": "./dist/ts-medialibrary.js",
+  "exports": {
+    ".": {
+      "import": "./dist/ts-medialibrary.js",
+      "require": "./dist/ts-medialibrary.umd.cjs"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
