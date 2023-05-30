@@ -1,0 +1,39 @@
+#tml-toasts {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    // z-index: 1005;
+    z-index: calc(var(--tml-modal-z-index, 100) + 1);
+    .toast {
+        background-color: #fff;
+        border-radius: 5px;
+        padding: 1rem 2rem;
+        margin: 0.5rem;
+        font-weight: bold;
+        transform: translateX(120%);
+        transition: transform 0.3s;
+        border: 1px solid transparent;
+
+        &.active {
+
+            transform: translateX(0);
+        }
+
+        &.info {
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+            
+        }
+        &.success {
+            color: var(--color-success);
+            border-color: var(--color-success);
+        }
+        &.error {
+            color: var(--color-danger);
+            border-color: var(--color-danger);
+        }
+    }
+}
