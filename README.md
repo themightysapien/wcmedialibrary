@@ -1,18 +1,33 @@
-# Vue Media Library Web Component 
+# Media Library Web Component 
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+This is framework agnostic Media library Web Component made with [vue3](https://v3.vuejs.org).
 
-## Recommended IDE Setup
+## Features
+- Upload Media
+- Remove Media
+- Reuse already uploaded files 
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Installation
 
-## Type Support For `.vue` Imports in TS
+### Clientside
+```
+import 'tsmedialibrary/dist/ts-media-library.js';
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+<ts-media-library url="REST_URL_HERE"></ts-media-library>
+````
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+### Serverside Setup and Api Architecture
+To Quickly get started you can use a laravel installation with [Media Library Package](https://github.com/themightysapien/laravelmedialibrary) which comes with all required url actions.
+- GET /URL Return Media collection
+```
+Response {items: MediaResourceCollection[], pagination?: PaginationResource, success: 1}
+```
+- POST /URL Upload media
+```
+Request files[] HttpFile
+Response {items: UploadedMediaResourceCollection[], message?: 'Success Message', success: 1}
+```
+- DELETE /URL/:id
+```
+Response {message?:'Success Message', success: 1}
+```
