@@ -68,8 +68,16 @@
     font-size: 1.125rem;
     line-height: 1.75rem;
 }
+
+.text-primary {
+	color: var(--color-primary);
+}
+
 .font-medium {
 	font-weight: 500;
+}
+.font-bold {
+	font-weight: bold;
 }
 .w-full {
 	width:100%;
@@ -115,6 +123,14 @@ button {
 			--bg: rgb(var(--color-primary-rgb), 1);
 		}
 	}
+	&.btn-danger {
+		--bg: rgb(var(--color-danger-rgb), 0.7);
+		border-color: rgb(var(--color-danger-rgb), 1);
+
+		&:hover {
+			--bg: rgb(var(--color-danger-rgb), 1);
+		}
+	}
 
 	&.btn-secondary {
 		--bg: var(--color-secondary);
@@ -138,6 +154,20 @@ button {
 	&[disabled] {
 		opacity:0.8;
 		cursor: text;
+	}
+}
+
+input.control {
+	height:35px;
+	padding:0 0.5rem;
+	border: 1px solid var(--color-light);
+	font-size: 1rem;
+	outline: none;
+	color: var(--color-grey);
+	@extend .rounded-sm;
+
+	&:focus {
+		border-color: var(--color-primary);
 	}
 }
 
