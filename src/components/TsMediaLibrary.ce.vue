@@ -1,7 +1,7 @@
 <template>
 	<div
 		v-if="url"
-		id="tml-media-library"
+		class="tml-media-library"
 	>
 		<Toasts />
 		<section
@@ -17,7 +17,10 @@
 					<button
 						class="btn-primary"
 						type="button"
-						@click.prevent="uploadVisible = !uploadVisible; scrollToTop();"
+						@click.prevent="
+							uploadVisible = !uploadVisible;
+							scrollToTop();
+						"
 					>
 						<svg
 							class="tml-modal-button-icon w-5 h-5 mr-1 -ml-2 rtl:ml-1 rtl:-mr-2"
@@ -60,7 +63,10 @@
 						<span class="sr-only"> Close </span>
 					</a>
 				</div>
-				<div class="tml-modal-body" ref="tml_modal_body">
+				<div
+					class="tml-modal-body"
+					ref="tml_modal_body"
+				>
 					<div class="tml-gallery-preview-container rounded">
 						<div class="w-full">
 							<Uploader
@@ -72,7 +78,7 @@
 							/>
 							<div style="clear: both"></div>
 							<div class="tml-gallery">
-								<Filter />
+								<Filter v-if="state.items.length" />
 								<Gallery :multiple="multiple" />
 							</div>
 						</div>
@@ -189,9 +195,9 @@
 					this._toChange = false;
 				}, 50);
 			},
-			scrollToTop(){
-				if(this.uploadVisible){
-					this.$refs['tml_modal_body'].scrollTop = 0;
+			scrollToTop() {
+				if (this.uploadVisible) {
+					this.$refs["tml_modal_body"].scrollTop = 0;
 				}
 			},
 			_onModalBackgroundClick(e: any) {

@@ -12,6 +12,15 @@
 			</p>
 		</div>
 		<div class="tml-gallery-controls">
+			<select
+				class="control"
+				@change="onSortChange"
+			>
+				<option value="">Sort By</option>
+				<option value="latest">Latest</option>
+				<option value="oldest">Oldest</option>
+				<option value="alphabetical">A-Z</option>
+			</select>
 			<input
 				type="text"
 				class="control"
@@ -20,8 +29,8 @@
 				placeholder="Search"
 			/>
 			<a
-            v-if="state.filter.keyword"
-            @click.prevent="clear"
+				v-if="state.filter.keyword"
+				@click.prevent="clear"
 				class="tml-filter-clear"
 				title="Clear"
 			>
@@ -52,15 +61,23 @@
 
 	const form = reactive({
 		value: "",
+		sort: "",
 	});
 
 	const onKeyUp = debounce((e) => {
 		state.filter.keyword = form.value;
 	}, 500);
 
-    const clear = () => {
-        resetFilter();
-        form.value = '';
-    }
+	const onSortChange = (e) => {
+		// console.log(e.target.value);
+		if (e.target.value) {
+			state.filter.sort = e.target.value;
+		}
+	};
+
+	const clear = () => {
+		resetFilter();
+		form.value = "";
+	};
 </script>
 <style></style>

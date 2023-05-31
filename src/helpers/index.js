@@ -33,3 +33,45 @@ export function debounce(func, timeout = 300) {
 		}, timeout);
 	};
 }
+
+
+export function sortByKey(array, key) {
+	// return array;
+	return array.sort(function (a, b) {
+	  var x = a[key];
+	  var y = b[key];
+  
+	  // if(!x){
+	  //     return -1;
+	  // }
+  
+	  if (typeof x == "string") {
+		x = ("" + x).toLowerCase();
+	  }
+	  if (typeof y == "string") {
+		y = ("" + y).toLowerCase();
+	  }
+  
+	  return x < y ? -1 : x > y ? 1 : 0;
+	});
+  }
+  
+  export function sortByKeyDesc(array, key) {
+	return array.sort(function (a, b) {
+	  var x = a[key];
+	  var y = b[key];
+  
+	  // if(!x){
+	  //     return 1;
+	  // }
+  
+	  if (typeof x == "string") {
+		x = ("" + x).toLowerCase();
+	  }
+	  if (typeof y == "string") {
+		y = ("" + y).toLowerCase();
+	  }
+  
+	  return x < y ? 1 : x > y ? -1 : 0;
+	});
+  }

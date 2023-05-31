@@ -20,10 +20,14 @@
 	--color-danger: rgb(var(--color-danger-rgb));
 }
 
-#tml-media-library {
+.tml-media-library {
 	@import "./styles/helpers";
 
 	@import "./styles/toasts";
+
+	p {
+		color: var(--color-grey);
+	}
 
 	.tml-selections-preview {
 		display: flex;

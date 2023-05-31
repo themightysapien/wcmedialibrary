@@ -1,6 +1,11 @@
 import axios from "axios";
 import { reactive, computed, ref } from "vue";
-import { humanFileSize, extractErrorMessage } from "../helpers";
+import {
+	humanFileSize,
+	extractErrorMessage,
+	sortByKeyDesc,
+	sortByKey,
+} from "../helpers";
 import useToasts from "./useToast";
 
 const template = {
@@ -13,8 +18,9 @@ const template = {
 	active: null,
 	multiple: false,
 	filter: {
-		keyword: ''
-	}
+		keyword: "",
+		sort: "latest",
+	},
 };
 
 const mediaStore = reactive({
@@ -186,7 +192,6 @@ export default function useMediaStore(key = "default") {
 	});
 
 	const filterItems = (item: any) => {
-		
 		if (!state.filter.keyword) {
 			return item;
 		}
@@ -202,13 +207,29 @@ export default function useMediaStore(key = "default") {
 	const items = computed(() => {
 		const state = mediaStore[key];
 
-		return state.items.filter(filterItems);
-	});
+		let items = state.items;
+		switch (state.filter.sort) {
+			case "oldest":
+				items = sortByKey(items, "created_at");
+				break;
 
+			case "alphabetical":
+				console.log(items[0]);
+				items = sortByKey(items, "file_name");
+				console.log(items[0]);
+				break;
+
+			default:
+				items = sortByKeyDesc(items, "created_at");
+		}
+
+		return items.filter(filterItems);
+	});
 
 	const resetFilter = () => {
 		state.filter = {
-			keyword: ''
+			keyword: "",
+			sort: "latest",
 		};
 	};
 
@@ -230,6 +251,6 @@ export default function useMediaStore(key = "default") {
 		toggleActive,
 		activeItem,
 		selectedItems,
-		resetFilter
+		resetFilter,
 	};
 }

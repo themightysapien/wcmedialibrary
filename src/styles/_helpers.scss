@@ -157,11 +157,12 @@ button {
 	}
 }
 
-input.control {
+input.control, select.control {
 	height:35px;
 	padding:0 0.5rem;
 	border: 1px solid var(--color-light);
-	font-size: 1rem;
+	background-color: white;
+	font-size: 0.8rem;
 	outline: none;
 	color: var(--color-grey);
 	@extend .rounded-sm;
