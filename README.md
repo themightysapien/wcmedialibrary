@@ -88,7 +88,7 @@ To test the library there is a default solution provided for laravel, You have t
 
 ## Demo
 
-Insert gif or link to demo
+![SQ11g1JduD7-z-0-y-647a0fb8cfa57536f50cfc49](https://github.com/themightysapien/wcmedialibrary/assets/732813/68797d17-6a0d-46bc-b797-b87791f11f60)
 
 
 ## Acknowledgements
