@@ -159,7 +159,7 @@
 						this.$refs["auto_file_input"].files[0].name
 					);
 				}
-				formData.append("allowFiles", this.allowFiles);
+				formData.append("allow_files", this.allowFiles);
 
 				this.upload(formData);
 			},

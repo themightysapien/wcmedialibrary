@@ -111,6 +111,7 @@
 		<div @click="open">
 			<selected-preview
 				v-if="preview"
+				:info="true"
 				:collection="selectedItems"
 			/>
 			<slot v-if="isBtnVisible || !selectedItems || !selectedItems.length">
@@ -173,6 +174,7 @@
 				uid: this.uid,
 			};
 		},
+		expose: ['open'],
 		data() {
 			return {
 				opened: false,
@@ -257,14 +259,14 @@
 				}
 			},
 			isBtnVisible() {
-				if (
-					this.multiple &&
-					this.maxLength > 0 &&
-					this.selectedItems &&
-					this.selectedItems.length >= this.maxLength
-				) {
-					return false;
-				}
+				// if (
+				// 	this.multiple &&
+				// 	this.maxLength > 0 &&
+				// 	this.selectedItems &&
+				// 	this.selectedItems.length >= this.maxLength
+				// ) {
+				// 	return false;
+				// }
 				return !this.autoHide;
 			},
 		},

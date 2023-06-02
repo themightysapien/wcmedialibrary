@@ -3,11 +3,22 @@
 		class="tml-selections-preview"
 		v-if="collection && collection.length"
 	>
-		<div class="tml-selection-item"
+		<div
 			v-for="(media, i) of collection"
 			:key="i"
 		>
-			<Media :media="media" />
+			<div class="tml-selection-item">
+				<Media
+					:info="false"
+					:media="media"
+				/>
+			</div>
+			<Media
+				v-if="info"
+				:preview="false"
+				:info="true"
+				:media="media"
+			/>
 		</div>
 	</div>
 </template>
@@ -17,6 +28,8 @@
 		components: { Media },
 		props: {
 			collection: { default: () => [] },
+			info: { default: false },
+			preview: { default: true },
 		},
 	};
 </script>

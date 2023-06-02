@@ -33,8 +33,9 @@ export interface SelectedMedia {
 	url: string;
 	mime_type?: string;
 	file_name?: string;
-	size?: string | number;
 	created_at?: string | number;
+	size?: string | number;
+	size_readable?: string;
 }
 
 const url = ref<string>("");
@@ -185,9 +186,18 @@ export default function useMediaStore(key = "default") {
 			.map((id) => state.items.find((media) => media.id == id))
 			.filter((item) => item)
 			.map((item) => {
-				const { id, thumb_url, url, file_name } = item;
+				const { id, thumb_url, url, file_name, mime_type, size, size_readable } =
+					item;
 
-				return { id, thumb_url, url, file_name } as SelectedMedia;
+				return {
+					id,
+					thumb_url,
+					url,
+					file_name,
+					mime_type,
+					size,
+					size_readable,
+				} as SelectedMedia;
 			});
 	});
 
@@ -214,9 +224,7 @@ export default function useMediaStore(key = "default") {
 				break;
 
 			case "alphabetical":
-				console.log(items[0]);
 				items = sortByKey(items, "file_name");
-				console.log(items[0]);
 				break;
 
 			default:
