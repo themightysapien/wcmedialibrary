@@ -2,7 +2,9 @@
 	<div class="tml-media-preview">
 		<div v-if="activeItem">
 			<div class="tml-media-preview-image-container">
+				<a :href="activeItem.url" target="_blank">
 				<Media :media="activeItem" class="tml-media-preview-image rounded"/>
+				</a>
 				<!-- <img
 					:src="activeItem.thumb_url"
 					class="tml-media-preview-image rounded"
@@ -18,21 +20,21 @@
 						<dd class="">Demo User</dd>
 					</div> -->
 					<div class="">
-						<dt class="">Uploaded at</dt>
+						<dt class="">Uploaded</dt>
 						<dd :title="activeItem.created_at" class="truncate">{{ activeItem.created_at }}</dd>
 					</div>
 					<!-- <div class="">
 						<dt class="">Dimensions</dt>
 						<dd class="">1920 x 1459</dd>
 					</div> -->
-					<div class="">
+					<!-- <div class="">
 						<dt class="">ID</dt>
 						<dd class="">{{ activeItem.id }}</dd>
 					</div>
 					<div class="">
 						<dt class="">Thumb conversion generated</dt>
 						<dd class="">Yes</dd>
-					</div>
+					</div> -->
 				</dl>
 			</div>
 			<div class="divider"></div>

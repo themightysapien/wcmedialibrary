@@ -108,14 +108,15 @@
 				</div>
 			</div>
 		</section>
-		<div @click="open">
+		<div >
 			<selected-preview
 				v-if="preview"
 				:info="true"
 				:collection="selectedItems"
+				:previewLink="previewLink"
 			/>
 			<slot v-if="isBtnVisible || !selectedItems || !selectedItems.length">
-				<button class="btn-primary">
+				<button class="btn-primary" @click="open">
 					{{ selectedItems && selectedItems.length ? updateLabel : label }}
 				</button>
 			</slot>
@@ -153,6 +154,7 @@
 			label: { default: "Select File" },
 			updateLabel: { default: "Click To Change" },
 			multiple: { default: 0, type: [Boolean, String, Number] },
+			previewLink: { default: 1, type: [Boolean, String, Number] },
 			url: { required: true },
 			autoHide: { default: false },
 			removeConfirm: { default: true },

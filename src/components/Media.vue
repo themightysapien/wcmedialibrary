@@ -2,13 +2,14 @@
 	<div
 		v-if="media"
 		class="tml_media_box"
+		:title="title"
 	>
 		<template v-if="preview">
 			<img
 				v-if="isImage"
 				:src="media.thumb_url"
 				v-bind="$attrs"
-				:title="media.file_name"
+				
 			/>
 
 			<svg
@@ -21,6 +22,7 @@
 				viewBox="0 0 64 64"
 				enable-background="new 0 0 64 64"
 				xml:space="preserve"
+				
 			>
 				<path
 					fill="#231F20"
@@ -59,13 +61,16 @@
 		},
 		computed: {
 			isImage() {
-				console.log(this.media);
+				// console.log(this.media);
 				return (
 					this.media &&
 					this.media.mime_type &&
 					this.media.mime_type.indexOf("image") >= 0
 				);
 			},
+			title(){
+				return this.media ? this.media.file_name + ' | ' + this.media.size_readable : 'File';
+			}
 		},
 	};
 </script>

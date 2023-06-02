@@ -7,18 +7,14 @@
 			v-for="(media, i) of collection"
 			:key="i"
 		>
-			<div class="tml-selection-item">
+			<a class="tml-selection-item" @click="onClick" :href="media.url" target="_blank">
 				<Media
-					:info="false"
+					:info="info"
 					:media="media"
+					svgwidth="100"
+					svgheight="100"
 				/>
-			</div>
-			<Media
-				v-if="info"
-				:preview="false"
-				:info="true"
-				:media="media"
-			/>
+			</a>
 		</div>
 	</div>
 </template>
@@ -27,10 +23,22 @@
 	export default {
 		components: { Media },
 		props: {
+			previewLink: { default: 0, type: [Boolean, String, Number] },
 			collection: { default: () => [] },
 			info: { default: false },
 			preview: { default: true },
 		},
+		methods:{
+			onClick(e){
+				// console.log(this.previewLink);
+				if(!this.previewLink){
+					e.preventDefault();
+					return;
+				}
+				
+
+			}
+		}
 	};
 </script>
 <style lang=""></style>
