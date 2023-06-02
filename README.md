@@ -1,33 +1,96 @@
+
 # Media Library Web Component 
 
-This is framework agnostic Media library Web Component made with [vue3](https://v3.vuejs.org).
-
-## Features
-- Upload Media
-- Remove Media
-- Reuse already uploaded files 
+A client framework and server agnostic Media library Web Component made with [vue3](https://v3.vuejs.org).
 
 ## Installation
 
-### Clientside
-```
-import 'tsmedialibrary/dist/ts-media-library.js';
+Install ts-medialibrary with npm
 
-<ts-media-library url="REST_URL_HERE"></ts-media-library>
-````
+```bash
+  npm install ts-medialibrary
+  import 'ts-medialibrary/dist/ts-medialibrary.js';
 
-### Serverside Setup and Api Architecture
-To Quickly get started you can use a laravel installation with [Media Library Package](https://github.com/themightysapien/laravelmedialibrary) which comes with all required url actions.
-- GET /URL Return Media collection
+  <ts-medialibrary url="REST_URL_HERE"></ts-medialibrary>
 ```
-Response {items: MediaResourceCollection[], pagination?: PaginationResource, success: 1}
+    
+## API Reference
+
+### Client
+
+| Props | Type | Default |  Description                       |
+| :-------- | :------- | :------- | :-------------------------------- |
+| `url`     | `string` | none     | **Required**. REST Url to fetch and upload media |
+| `label`   | `string` | Select File(s) | Upload Button Label |
+| `title`   | `string` | Media Library | Library Modal Heading |
+| `udpate-label`   | `string` | Click To Change | Upload Button Label after selections are made |
+| `multiple`   | `string, boolean, number` | 0 | Allow multiple selection and upload |
+| `preview-link`   | `string, boolean, number` | 1 | Open selected media in new tab 
+| `allow-files`   | `boolean, number` | 0 | By default only images are allowed, Passing value of 1 will allow upload of any files defined in accept prop |
+| `accept`   | `string` | `"image/*, audio/*, video/*, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, .pdf, .doc, .docx, .csv, .txt` | File types to accept when allow-files=1. Only for clientisde. For server validation you have to use your own. |
+
+
+### Server
+Server Api Reference. 
+
+To test the library there is a default solution provided for laravel, You have to install one of my other package [Media Library Package](https://github.com/themightysapien/laravelmedialibrary) which comes with all required url actions.
+
+
+#### Get all items
+
+```http
+  GET /PROPS_URL
 ```
-- POST /URL Upload media
+##### Response
+```json
+{items: MediaResourceCollection[], success: 1}
 ```
-Request files[] HttpFile
-Response {items: UploadedMediaResourceCollection[], message?: 'Success Message', success: 1}
+
+#### Upload item
+
+```http
+  POST /PROPS_URL
 ```
-- DELETE /URL/:id
+
+| Body | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `files[]`      | `HTTPFile` | **Required**. array of files |
+| `allow_files`      | `number(0, 1)` | If the upload should support only image or any files. |
+
+##### Response
+```json
+{items: UploadedMediaResourceCollection[], success: 1, message: 'UPLOADED SUCCESS MESSAGE'}
 ```
-Response {message?:'Success Message', success: 1}
+#### Delete item
+
+```http
+  DELETE /PROPS_URL/${id}
 ```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `string` | **Required**. Id of item to delete |
+##### Response
+```json
+{ success: 1, message: "DELETED MESSAGE"}
+```
+#### Error Response
+```json
+{ error: 1, message: ERROR_MESSAGE}
+```
+
+
+## Tech Stack
+
+**Client:** Vue3, Typescript, SCSS
+
+
+
+## Demo
+
+Insert gif or link to demo
+
+
+## Acknowledgements
+
+ - [Filament Admin Media Library](https://filamentphp.com/plugins/media-library-pro)

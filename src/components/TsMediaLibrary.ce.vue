@@ -151,7 +151,7 @@
 		props: {
 			blocking: { default: false },
 			preview: { default: true },
-			label: { default: "Select File" },
+			label: { default: "Select File(s)" },
 			updateLabel: { default: "Click To Change" },
 			multiple: { default: 0, type: [Boolean, String, Number] },
 			previewLink: { default: 1, type: [Boolean, String, Number] },
