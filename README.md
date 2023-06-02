@@ -29,6 +29,12 @@ Install ts-medialibrary with npm
 | `allow-files`   | `boolean, number` | 0 | By default only images are allowed, Passing value of 1 will allow upload of any files defined in accept prop |
 | `accept`   | `string` | `"image/*, audio/*, video/*, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, .pdf, .doc, .docx, .csv, .txt` | File types to accept when allow-files=1. Only for clientisde. For server validation you have to use your own. |
 
+#### Emits
+| Event | Data |
+| :-------- | :------- |
+| updated | media[] |
+
+Events are dispatched as native CustomEvents on the custom element. Additional event arguments (payload) will be exposed as an array on the CustomEvent object as its detail property.
 
 ### Server
 Server Api Reference. 
