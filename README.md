@@ -10,12 +10,6 @@ Install ts-medialibrary with npm
 ```bash
   npm install ts-medialibrary
 ```
-Than include js in your page.
-```javascript
-  import 'ts-medialibrary/dist/ts-medialibrary.js';
-
-  <ts-medialibrary url="REST_URL_HERE"></ts-medialibrary>
-```
 
 ### Usage Example
 #### Javascript
@@ -53,7 +47,7 @@ Than include js in your page.
   <ts-medialibrary url="REST_URL_HERE" @updated="onSelectionChanged"></ts-medialibrary>
 ```
 ### React
-You can either add ref to the ts-medialibrary and listen just like with js or can wrap and make reusable react component.
+You can either add ref to the ts-medialibrary and listen just like with js or can wrap and make new HOC react component.
 ```javascript
 import 'ts-medialibrary/dist/ts-medialibrary.js';
 
@@ -89,9 +83,11 @@ const MediaLibrary = ({ url, onChange }) => {
 | Props | Type | Default |  Description                       |
 | :-------- | :------- | :------- | :-------------------------------- |
 | `url`     | `string` | none     | **Required**. REST Url to fetch and upload media |
+| `uid`     | `string` | default     | Unique identifer required for multiple instances in same page. |
 | `label`   | `string` | Select File(s) | Upload Button Label |
 | `title`   | `string` | Media Library | Library Modal Heading |
 | `udpate-label`   | `string` | Click To Change | Upload Button Label after selections are made |
+| `blocking`   | `string,number,boolean` | 0 | If 1 than backdrop blocks the ui and modal stays open when clicking on it |
 | `input-name`   | `string` | files[] | input name which is used to return html string on update |
 | `input-key`   | `string` | id | key from media object to be used as input value |
 | `multiple`   | `string, boolean, number` | 0 | Allow multiple selection and upload |
@@ -103,7 +99,7 @@ const MediaLibrary = ({ url, onChange }) => {
 | Event | Payload | Description |
 | :-------- | :------- | :----- |
 | updated | selected: media[] | Arry of selected media `{id, url, thumb_url}[]`
-|  | html: string | Hidden input string with `input-name` as key and value taken from `media[input-key]`
+|  | html: string | Hidden input string with `input-name` as name and value mapped to `media[input-key]`
 
 Events are dispatched as native CustomEvents on the custom element. Additional event arguments (payload) will be exposed as an array on the CustomEvent object as its detail property.
 `const payload = e.detail[0];`
@@ -120,7 +116,7 @@ To test the library there is a default solution provided for laravel, You have t
 ```
 ##### Response
 ```json
-{items: MediaResourceCollection[], success: 1}
+{"items": "MediaResourceCollection[]", "success": 1}
 ```
 
 #### Upload item
@@ -136,7 +132,7 @@ To test the library there is a default solution provided for laravel, You have t
 
 ##### Response
 ```json
-{items: UploadedMediaResourceCollection[], success: 1, message: 'UPLOADED SUCCESS MESSAGE'}
+{"items": "UploadedMediaResourceCollection[]", "success": 1, "message": "UPLOADED SUCCESS MESSAGE"}
 ```
 #### Delete item
 
@@ -149,11 +145,11 @@ To test the library there is a default solution provided for laravel, You have t
 | `id`      | `string` | **Required**. Id of item to delete |
 ##### Response
 ```json
-{ success: 1, message: "DELETED MESSAGE"}
+{ "success": 1, "message": "DELETED MESSAGE"}
 ```
 #### Error Response
 ```json
-{ error: 1, message: ERROR_MESSAGE}
+{ "error": 1, "message": "ERROR_MESSAGE"}
 ```
 
 
