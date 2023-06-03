@@ -19,7 +19,9 @@
 			multiple
 			title="Library Demo For Github"
 			url="http://localhost/works/packagedevelopment/public/api/v1/tsmedialibrary"
+			updated="console.log"
 		></ts-medialibrary>
+		<div id="fileinput"></div>
 
 		<!-- <ts-medialibrary
 			uid="profilepic"
@@ -31,5 +33,21 @@
 			type="module"
 			src="/src/main.ts"
 		></script>
+		<script>
+			customElements.whenDefined("ts-medialibrary").then((app) => {
+				const el = document.querySelector("ts-medialibrary");
+
+				if(el){
+
+					el.addEventListener("updated", function (e) {
+						console.log(e.detail[0]);
+						const payload = e.detail[0];
+
+						document.getElementById("fileinput").innerHTML = payload.html;
+					});
+				}
+				
+			});
+		</script>
 	</body>
 </html>

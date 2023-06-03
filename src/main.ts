@@ -6,7 +6,7 @@ import TsMediaLibrary from "./components/TsMediaLibrary.ce.vue";
 const app = createApp(App); /* .mount('#app') */
 
 app.config.compilerOptions.isCustomElement = (tag) => tag == "ts-medialibrary";
-// app.mount("#app");
+app.mount("#app");
 
 const CustomElement = defineCustomElement(TsMediaLibrary);
 

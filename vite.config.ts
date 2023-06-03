@@ -20,5 +20,6 @@ export default defineConfig({
 			// the proper extensions will be added
 			fileName: "ts-medialibrary",
 		},
+		minify: true
 	},
 });

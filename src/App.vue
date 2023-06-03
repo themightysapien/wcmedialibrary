@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import TsMediaLibrary from './components/TsMediaLibrary.ce.vue'
+
 </script>
 
 <template>
@@ -11,6 +11,12 @@
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
   </div>
+  <!-- <ts-medialibrary
+			multiple
+			title="Library Demo For Github"
+			url="http://localhost/works/packagedevelopment/public/api/v1/tsmedialibrary"
+			@updated="console.log"
+		></ts-medialibrary> -->
   <!-- <TsMediaLibrary /> -->
 </template>
 
