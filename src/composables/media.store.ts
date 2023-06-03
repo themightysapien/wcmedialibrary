@@ -20,6 +20,7 @@ const template = {
 	filter: {
 		keyword: "",
 		sort: "latest",
+		files: 0,
 	},
 };
 
@@ -214,6 +215,14 @@ export default function useMediaStore(key = "default") {
 		);
 	};
 
+	const fileTypeFilter = (item: any) => {
+		if (state.filter.files) {
+			return item;
+		}
+
+		return item.mime_type.indexOf("image") >= 0;
+	};
+
 	const items = computed(() => {
 		const state = mediaStore[key];
 
@@ -231,7 +240,7 @@ export default function useMediaStore(key = "default") {
 				items = sortByKeyDesc(items, "created_at");
 		}
 
-		return items.filter(filterItems);
+		return items.filter(fileTypeFilter).filter(filterItems);
 	});
 
 	const resetFilter = () => {
@@ -242,13 +251,19 @@ export default function useMediaStore(key = "default") {
 	};
 
 	return {
-		initStore: (fullurl: string, key: string, multiple: boolean) => {
-			url.value = fullurl;
+		initStore: (config: {
+			url: string;
+			key: string;
+			multiple: boolean;
+			allowFiles: boolean | number;
+		}) => {
+			url.value = config.url;
 			if (!mediaStore[key]) {
 				mediaStore[key] = { ...template };
 			}
-			mediaStore[key]["multiple"] = multiple;
-			mediaStore[key]["selected"] = multiple ? [] : null;
+			mediaStore[key]["multiple"] = config.multiple;
+			mediaStore[key]["selected"] = config.multiple ? [] : null;
+			mediaStore[key]["filter"]["files"] = config.allowFiles;
 		},
 		state,
 		items,
