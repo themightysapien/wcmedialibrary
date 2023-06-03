@@ -75,7 +75,6 @@
 								:autoHide="autoHide"
 								:allow-files="allowFiles"
 								:accept="accept"
-								
 							/>
 							<div style="clear: both"></div>
 							<div class="tml-gallery">
@@ -153,7 +152,7 @@
 		},
 		enits: ["tml-modal-background-closed", "updated"],
 		props: {
-			blocking: { default: false },
+			blocking: { default: 0, type: [Boolean, String, Number] },
 			preview: { default: true },
 			label: { default: "Select File(s)" },
 			updateLabel: { default: "Click To Change" },
@@ -164,8 +163,8 @@
 			removeConfirm: { default: true },
 			allowFiles: { default: 0 },
 			maxLength: { default: 5 },
-			inputName: {default: 'files[]'},
-			inputKey: {default: 'id'},
+			inputName: { default: "files[]" },
+			inputKey: { default: "id" },
 			accept: {
 				default:
 					"image/*, audio/*, video/*, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, .pdf, .doc, .docx, .csv, .txt",
@@ -194,7 +193,12 @@
 			// console.log(this.multiple);
 			// console.log(this.url);
 			if (this.url) {
-				this.initStore(this.url, this.uid, this.multiple);
+				this.initStore({
+					url: this.url,
+					key: this.uid,
+					multiple: this.multiple,
+					allowFiles: this.allowFiles,
+				});
 			}
 		},
 		methods: {
@@ -244,17 +248,20 @@
 				});
 			},
 			output() {
-				console.log('output');
+				console.log("output");
 				this.$emit("updated", {
 					selected: this.selectedItems,
 					html: this.inputString(),
 				});
 			},
-			inputString(){
-
-				return this.selectedItems.map(item => {
-					return `<input type="hidden" name="${this.inputName}" value="${item[this.inputKey]}"/>`;
-				}).join(" ");
+			inputString() {
+				return this.selectedItems
+					.map((item) => {
+						return `<input type="hidden" name="${this.inputName}" value="${
+							item[this.inputKey]
+						}"/>`;
+					})
+					.join(" ");
 			},
 
 			onAnimationEnd() {
