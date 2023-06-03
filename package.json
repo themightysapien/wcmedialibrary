@@ -1,7 +1,7 @@
 {
 	"name": "ts-medialibrary",
 	"private": false,
-	"version": "0.9.6",
+	"version": "1.0.0-alpha",
 	"type": "module",
 	"files": [
 		"dist"
