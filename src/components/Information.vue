@@ -2,14 +2,20 @@
 	<div class="tml-media-preview">
 		<div v-if="activeItem">
 			<div class="tml-media-preview-image-container">
-				<a :href="activeItem.url" target="_blank">
-				<Media :media="activeItem" class="tml-media-preview-image rounded"/>
+				<a
+					:href="activeItem.url"
+					target="_blank"
+				>
+					<Media
+						:media="activeItem"
+						class="tml-media-preview-image rounded"
+					/>
 				</a>
 				<!-- <img
 					:src="activeItem.thumb_url"
 					class="tml-media-preview-image rounded"
 				/> -->
-				<h2 class="text-lg ">{{ activeItem.file_name }}</h2>
+				<h2 class="text-lg">{{ activeItem.file_name }}</h2>
 				<p>{{ activeItem.size_readable }}</p>
 			</div>
 			<div class="tml-media-info-content">
@@ -21,7 +27,12 @@
 					</div> -->
 					<div class="">
 						<dt class="">Uploaded</dt>
-						<dd :title="activeItem.created_at" class="truncate">{{ activeItem.created_at }}</dd>
+						<dd
+							:title="activeItem.created_at"
+							class="truncate"
+						>
+							{{ activeItem.created_at }}
+						</dd>
 					</div>
 					<!-- <div class="">
 						<dt class="">Dimensions</dt>
@@ -38,7 +49,10 @@
 				</dl>
 			</div>
 			<div class="divider"></div>
-			<Actions :media="activeItem"/>
+			<Actions
+				:media="activeItem"
+				
+			/>
 		</div>
 		<div
 			v-else
@@ -53,16 +67,22 @@
 </template>
 <script setup>
 	import { onMounted, computed, watchEffect, inject } from "vue";
-	import Media from './Media.vue';
-	import Actions from './Actions.vue';
+	import Media from "./Media.vue";
+	import Actions from "./Actions.vue";
 
 	import useMediaStore from "../composables/media.store";
 
 	// console.log(props);
-	const uid = inject('uid')
+	const uid = inject("uid");
 
 	const { activeItem, activate } = useMediaStore(uid);
 
+	defineEmits(["removed"]);
+
 	onMounted(() => {});
+
+	const onRemove = (e) => {
+		console.log("action removed", e);
+	};
 </script>
 <style></style>

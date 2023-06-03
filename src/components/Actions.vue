@@ -67,6 +67,7 @@
 		props: {
 			media: { default: null },
 		},
+		emits: ['deleted'],
 		data() {
 			return {
 				deleting: false,
@@ -79,12 +80,21 @@
 
 			onRemoveConfirm() {
 				this.loading(true);
+				// let $this = this;
+			
+				// this.$emit('deleted');
 				this.remove(this.media.id).then(
 					(resp) => {
+						// debugger;
 						this.loading(false);
 						this.reset();
+						// console.log('emited');
+						this.$parent.$emit('removed');
+						// this.$emit('deleted');
+
 					},
 					(er) => {
+						// console.log(er);
 						this.loading(false);
 					}
 				);

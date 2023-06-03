@@ -75,6 +75,7 @@
 								:autoHide="autoHide"
 								:allow-files="allowFiles"
 								:accept="accept"
+								
 							/>
 							<div style="clear: both"></div>
 							<div class="tml-gallery">
@@ -83,7 +84,7 @@
 							</div>
 						</div>
 						<div class="tml-preview-container">
-							<Information />
+							<Information @removed="output" />
 						</div>
 					</div>
 				</div>
@@ -108,7 +109,7 @@
 				</div>
 			</div>
 		</section>
-		<div >
+		<div>
 			<selected-preview
 				v-if="preview"
 				:info="true"
@@ -116,7 +117,10 @@
 				:previewLink="previewLink"
 			/>
 			<slot v-if="isBtnVisible || !selectedItems || !selectedItems.length">
-				<button class="btn-primary" @click="open">
+				<button
+					class="btn-primary"
+					@click="open"
+				>
 					{{ selectedItems && selectedItems.length ? updateLabel : label }}
 				</button>
 			</slot>
@@ -160,6 +164,8 @@
 			removeConfirm: { default: true },
 			allowFiles: { default: 0 },
 			maxLength: { default: 5 },
+			inputName: {default: 'files[]'},
+			inputKey: {default: 'id'},
 			accept: {
 				default:
 					"image/*, audio/*, video/*, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, .pdf, .doc, .docx, .csv, .txt",
@@ -176,7 +182,7 @@
 				uid: this.uid,
 			};
 		},
-		expose: ['open'],
+		expose: ["open"],
 		data() {
 			return {
 				opened: false,
@@ -238,7 +244,17 @@
 				});
 			},
 			output() {
-				this.$emit("updated", this.selectedItems);
+				console.log('output');
+				this.$emit("updated", {
+					selected: this.selectedItems,
+					html: this.inputString(),
+				});
+			},
+			inputString(){
+
+				return this.selectedItems.map(item => {
+					return `<input type="hidden" name="${this.inputName}" value="${item[this.inputKey]}"/>`;
+				}).join(" ");
 			},
 
 			onAnimationEnd() {
