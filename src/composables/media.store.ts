@@ -8,10 +8,15 @@ import {
 } from "../helpers";
 import useToasts from "./useToast";
 
-const template = {
+const list = reactive({
 	items: [],
 	pagination: {},
 	initialized: false,
+});
+
+const template = {
+	// items: [],
+	// pagination: {},
 	loading: false,
 	contextLoading: {},
 	selected: [],
@@ -54,9 +59,9 @@ export default function useMediaStore(key = "default") {
 			if (response.data) {
 				success(response.data["message"] || "Uploaded");
 				if (response.data["items"]) {
-					state.initialized = true;
+					list.initialized = true;
 					let items = response.data["items"].map(readableSizeMap);
-					state.items = items.concat(state.items);
+					list.items = items.concat(list.items);
 					updateSelected(items);
 				}
 			}
@@ -92,24 +97,24 @@ export default function useMediaStore(key = "default") {
 			state.loading = false;
 			if (response.data) {
 				if (response.data["items"]) {
-					state.initialized = true;
-					state.items = response.data["items"].map(readableSizeMap);
+					list.initialized = true;
+					list.items = response.data["items"].map(readableSizeMap);
 				}
 
 				if (response.data["pagination"]) {
-					state.pagination = response.data["pagination"];
+					list.pagination = response.data["pagination"];
 				}
 			}
 		} catch (error) {
 			state.loading = false;
-			state.initialized = false;
+			list.initialized = false;
 			// console.log(error);
 		}
 	};
 
 	const fetchOnce = (params: object = {}) => {
-		// console.log(state.initialized);
-		if (!state.initialized) {
+		// console.log(list.initialized);
+		if (!list.initialized) {
 			fetch(params);
 		}
 	};
@@ -120,10 +125,10 @@ export default function useMediaStore(key = "default") {
 			const response = await axios.delete(`${url.value}/${id}`);
 			if (response.data["success"]) {
 				success(response.data["message"] || "Removed");
-				let index = state.items.findIndex((item) => item.id == id);
+				let index = list.items.findIndex((item) => item.id == id);
 
 				if (index >= 0) {
-					state.items.splice(index, 1);
+					list.items.splice(index, 1);
 				}
 			}
 			return response;
@@ -169,7 +174,7 @@ export default function useMediaStore(key = "default") {
 		const state = mediaStore[key];
 
 		if (state.active) {
-			return state.items.find((item) => item.id == state.active);
+			return list.items.find((item) => item.id == state.active);
 		}
 
 		return null;
@@ -184,7 +189,7 @@ export default function useMediaStore(key = "default") {
 		}
 
 		return ids
-			.map((id) => state.items.find((media) => media.id == id))
+			.map((id) => list.items.find((media) => media.id == id))
 			.filter((item) => item)
 			.map((item) => {
 				const { id, thumb_url, url, file_name, mime_type, size, size_readable } =
@@ -224,9 +229,9 @@ export default function useMediaStore(key = "default") {
 	};
 
 	const items = computed(() => {
-		const state = mediaStore[key];
+		// const state = mediaStore[key];
 
-		let items = state.items;
+		let items = list.items;
 		switch (state.filter.sort) {
 			case "oldest":
 				items = sortByKey(items, "created_at");
@@ -240,7 +245,7 @@ export default function useMediaStore(key = "default") {
 				items = sortByKeyDesc(items, "created_at");
 		}
 
-		return items.filter(fileTypeFilter).filter(filterItems);
+		return items.filter(fileTypeFilter).filter(filterItems).slice(0, state.filter.limit);
 	});
 
 	const resetFilter = () => {
@@ -256,16 +261,24 @@ export default function useMediaStore(key = "default") {
 			key: string;
 			multiple: boolean;
 			allowFiles: boolean | number;
+			limit: number
 		}) => {
+			// console.log(config);
 			url.value = config.url;
 			if (!mediaStore[key]) {
-				mediaStore[key] = { ...template };
+				
+				mediaStore[key] = JSON.parse(JSON.stringify(template));
 			}
-			mediaStore[key]["multiple"] = config.multiple;
-			mediaStore[key]["selected"] = config.multiple ? [] : null;
-			mediaStore[key]["filter"]["files"] = config.allowFiles;
+			const state = mediaStore[key];
+			state["multiple"] = config.multiple;
+			state["selected"] = config.multiple ? [] : null;
+			state["filter"]["files"] = Number(config.allowFiles);
+			state["filter"]["limit"] = Number(config.limit);
+
+			// console.log(mediaStore);
 		},
 		state,
+		list,
 		items,
 		store,
 		fetch,
