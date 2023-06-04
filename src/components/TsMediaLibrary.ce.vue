@@ -78,7 +78,7 @@
 							/>
 							<div style="clear: both"></div>
 							<div class="tml-gallery">
-								<Filter v-if="state.items.length" />
+								<Filter v-if="list.items.length" />
 								<Gallery :multiple="multiple" />
 							</div>
 						</div>
@@ -146,9 +146,9 @@
 			Toasts,
 		},
 		setup(props) {
-			const { initStore, state, selectedItems } = useMediaStore(props.uid);
+			const { initStore, state, selectedItems, list } = useMediaStore(props.uid);
 
-			return { initStore, state, selectedItems };
+			return { initStore, state, selectedItems, list };
 		},
 		enits: ["tml-modal-background-closed", "updated"],
 		props: {
@@ -161,7 +161,7 @@
 			url: { required: true },
 			autoHide: { default: false },
 			removeConfirm: { default: true },
-			allowFiles: { default: 0 },
+			allowFiles: { default: 0, type: [Boolean, String, Number] },
 			maxLength: { default: 5 },
 			inputName: { default: "files[]" },
 			inputKey: { default: "id" },
@@ -174,6 +174,7 @@
 			},
 			uid: { default: "default" },
 			title: { default: "Media Library" },
+			limit: {default: 50},
 		},
 		provide() {
 			// use function syntax so that we can access `this`
@@ -190,14 +191,13 @@
 			};
 		},
 		beforeMount() {
-			// console.log(this.multiple);
-			// console.log(this.url);
 			if (this.url) {
 				this.initStore({
 					url: this.url,
 					key: this.uid,
 					multiple: this.multiple,
 					allowFiles: this.allowFiles,
+					limit: this.limit
 				});
 			}
 		},

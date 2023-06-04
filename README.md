@@ -94,12 +94,13 @@ const MediaLibrary = ({ url, onChange }) => {
 | `preview-link`   | `string, boolean, number` | 1 | Open selected media in new tab 
 | `allow-files`   | `boolean, number` | 0 | By default only images are allowed, Passing value of 1 will allow upload of any files defined in accept prop |
 | `accept`   | `string` | `"image/*, audio/*, video/*, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, .pdf, .doc, .docx, .csv, .txt` | File types to accept when allow-files=1. Only for clientisde. For server validation you have to use your own. |
+| `limit`   | `number` | 50 | Number of max items to display in the library. Your server can return 100s of items but library will only show `limit` items. To see the remaining items, either have to search or sort.  |
 
 #### Emits
 | Event | Payload | Description |
 | :-------- | :------- | :----- |
 | updated | selected: media[] | Arry of selected media `{id, url, thumb_url}[]`
-|  | html: string | Hidden input string with `input-name` as name and value mapped to `media[input-key]`
+|  | html: string | Hidden input string with `input-name` as name and value mapped to `media[input-key]` |
 
 Events are dispatched as native CustomEvents on the custom element. Additional event arguments (payload) will be exposed as an array on the CustomEvent object as its detail property.
 `const payload = e.detail[0];`
