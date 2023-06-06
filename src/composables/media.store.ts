@@ -245,7 +245,10 @@ export default function useMediaStore(key = "default") {
 				items = sortByKeyDesc(items, "created_at");
 		}
 
-		return items.filter(fileTypeFilter).filter(filterItems).slice(0, state.filter.limit);
+		return items
+			.filter(fileTypeFilter)
+			.filter(filterItems)
+			.slice(0, state.filter.limit);
 	});
 
 	const resetFilter = () => {
@@ -255,18 +258,21 @@ export default function useMediaStore(key = "default") {
 		};
 	};
 
+	const initSelected = (items: number[]) => {
+		state.selected = state.multiple ? items: items[0];
+	};
+
 	return {
 		initStore: (config: {
 			url: string;
 			key: string;
 			multiple: boolean;
 			allowFiles: boolean | number;
-			limit: number
+			limit: number;
 		}) => {
 			// console.log(config);
 			url.value = config.url;
 			if (!mediaStore[key]) {
-				
 				mediaStore[key] = JSON.parse(JSON.stringify(template));
 			}
 			const state = mediaStore[key];
@@ -277,6 +283,7 @@ export default function useMediaStore(key = "default") {
 
 			// console.log(mediaStore);
 		},
+		initSelected,
 		state,
 		list,
 		items,

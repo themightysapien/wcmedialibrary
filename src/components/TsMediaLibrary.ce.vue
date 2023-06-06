@@ -146,9 +146,9 @@
 			Toasts,
 		},
 		setup(props) {
-			const { initStore, state, selectedItems, list } = useMediaStore(props.uid);
+			const { initStore, state, selectedItems, list, fetchOnce, initSelected } = useMediaStore(props.uid);
 
-			return { initStore, state, selectedItems, list };
+			return { initStore, state, selectedItems, list, fetchOnce, initSelected };
 		},
 		enits: ["tml-modal-background-closed", "updated"],
 		props: {
@@ -174,7 +174,8 @@
 			},
 			uid: { default: "default" },
 			title: { default: "Media Library" },
-			limit: {default: 50},
+			limit: { default: 50 },
+			choosen: { default: "", type: [String] },
 		},
 		provide() {
 			// use function syntax so that we can access `this`
@@ -191,14 +192,21 @@
 			};
 		},
 		beforeMount() {
+			// console.log(this.choosen);
 			if (this.url) {
 				this.initStore({
 					url: this.url,
 					key: this.uid,
 					multiple: this.multiple,
 					allowFiles: this.allowFiles,
-					limit: this.limit
+					limit: this.limit,
 				});
+
+				if(this.choosen){
+					this.initSelected(this.choosen.split(",").map(no => Number(no.trim())));
+					this.fetchOnce();
+
+				}
 			}
 		},
 		methods: {
