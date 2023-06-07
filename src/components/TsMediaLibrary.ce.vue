@@ -83,7 +83,7 @@
 							</div>
 						</div>
 						<div class="tml-preview-container">
-							<Information @removed="output" />
+							<Information @removed="output" :canRemove="canRemove" />
 						</div>
 					</div>
 				</div>
@@ -114,6 +114,7 @@
 				:info="true"
 				:collection="selectedItems"
 				:previewLink="previewLink"
+				
 			/>
 			<slot v-if="isBtnVisible || !selectedItems || !selectedItems.length">
 				<button
@@ -162,6 +163,7 @@
 			autoHide: { default: false },
 			removeConfirm: { default: true },
 			allowFiles: { default: 0, type: [Boolean, String, Number] },
+			canRemove: { default: 0, type: [Boolean, String, Number] },
 			maxLength: { default: 5 },
 			inputName: { default: "files[]" },
 			inputKey: { default: "id" },

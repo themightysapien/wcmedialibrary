@@ -49,10 +49,7 @@
 				</dl>
 			</div>
 			<div class="divider"></div>
-			<Actions
-				:media="activeItem"
-				
-			/>
+			<Actions :media="activeItem" :canRemove="canRemove" />
 		</div>
 		<div
 			v-else
@@ -69,6 +66,10 @@
 	import { onMounted, computed, watchEffect, inject } from "vue";
 	import Media from "./Media.vue";
 	import Actions from "./Actions.vue";
+
+	defineProps({
+		canRemove: { default: 0, type: [Boolean, String, Number] },
+	});
 
 	import useMediaStore from "../composables/media.store";
 

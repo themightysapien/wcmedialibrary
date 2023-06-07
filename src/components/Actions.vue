@@ -1,6 +1,6 @@
 <template>
 	<div class="tml-item-actions">
-		<template v-if="deleting">
+		<template v-if="canRemove && deleting">
 			<div>
 				<p>
 					Are you sure you want to permanently delete
@@ -42,6 +42,7 @@
 					</a>
 				</button>
 				<button
+				v-if="canRemove"
 					title="Delete Media"
 					type="button"
 					style="margin-right: 0.5rem"
@@ -66,6 +67,8 @@
 		},
 		props: {
 			media: { default: null },
+			canRemove: { default: 0, type: [Boolean, String, Number] },
+
 		},
 		emits: ['deleted'],
 		data() {

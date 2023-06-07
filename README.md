@@ -88,7 +88,8 @@ const MediaLibrary = ({ url, onChange }) => {
 | `title`   | `string` | Media Library | Library Modal Heading |
 | `udpate-label`   | `string` | Click To Change | Upload Button Label after selections are made |
 | `choosen`   | `string` | None | Comma separated id to preselect media. |
-| `blocking`   | `string,number,boolean` | 0 | If 1 than backdrop blocks the ui and modal stays open when clicking on it |
+| `can-remove`   | `string, boolean, number` | 0 | Allow delete action if true |
+| `blocking`   | `string, number, boolean` | 0 | If true than backdrop blocks the UI and modal stays open when clicking on it |
 | `input-name`   | `string` | files[] | input name which is used to return html string on update |
 | `input-key`   | `string` | id | key from media object to be used as input value |
 | `multiple`   | `string, boolean, number` | 0 | Allow multiple selection and upload |

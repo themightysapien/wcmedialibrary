@@ -259,7 +259,8 @@ export default function useMediaStore(key = "default") {
 	};
 
 	const initSelected = (items: number[]) => {
-		state.selected = state.multiple ? items: items[0];
+		state.selected = state.multiple ? items : items[0];
+		state.active = state.multiple ? state.selected[0] : state.selected;
 	};
 
 	return {
