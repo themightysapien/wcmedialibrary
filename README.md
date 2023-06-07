@@ -154,6 +154,27 @@ To test the library there is a default solution provided for laravel, You have t
 { "error": 1, "message": "ERROR_MESSAGE"}
 ```
 
+## Customization and Theming
+| CSS Variable | Default     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `--tml-color-primary-rgb`      | `99, 102, 241` | Primary color RGB |
+| `--tml-color-danger-rgb`      | `255, 0, 0` | Primary color RGB |
+| `--tml-color-success`      | `green` | Success Color |
+| `--tml-color-secondary`      | `rgb(249, 250, 251)` | Secondary Color |
+| `--tml-color-grey`      | `grey` | Grey Color |
+| `--tml-color-light`      | `#bbbbbb` | Light Color |
+| `--tml-color-lighter`      | `#cccccc` | Lighter Color |
+| `--tml-modal-z-index`      | 100 | Z-Index for modal |
+| `--tml-modal-content-z-index`      | 10` | Z-Index for modal content |
+| `--tml-modal-animation-duration`      | 0.3s | Modal open animation duration |
+| `--tml-modal-background-color`      | `rgba(30, 30, 30, 0.8)` | Modal background color |
+| `--tml-modal-width`      | `fit-content` | Modal width |
+| `--tml-modal-min-width`      | `500px` | Modal min width |
+| `--tml-modal-max-width`      | `100vw` | Modal max width |
+| `--tml-modal-height`      | `80%` | Modal height  |
+
+There are a lot more variables which will be updated soon.
+
 
 ## Tech Stack
 
