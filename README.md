@@ -1,4 +1,3 @@
-
 # Media Library Web Component 
 
 A client framework and server agnostic Media library Web Component made with [vue3](https://v3.vuejs.org).
